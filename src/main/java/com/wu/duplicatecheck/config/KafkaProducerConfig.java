@@ -3,6 +3,7 @@ package com.wu.duplicatecheck.config;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.wu.duplicatecheck.model.kafka.DuplicateCheckKafkaEvent;
 import lombok.Builder;
+import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringSerializer;
@@ -15,6 +16,7 @@ import org.springframework.kafka.support.serializer.JsonSerializer;
 import java.util.HashMap;
 import java.util.Map;
 
+@Data
 @Builder
 @Configuration
 @RequiredArgsConstructor
@@ -31,6 +33,7 @@ public class KafkaProducerConfig {
     private Integer lingerMs;
     private Integer deliveryTimeoutInMs;
     private String topic;
+    private String  errorTopic;
 
     @Bean
     public ProducerFactory<String, DuplicateCheckKafkaEvent> producerFactory(ObjectMapper objectMapper) {

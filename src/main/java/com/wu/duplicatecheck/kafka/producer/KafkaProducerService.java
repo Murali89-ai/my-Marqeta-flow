@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.wu.duplicatecheck.config.KafkaTopicsConfig;
 import com.wu.duplicatecheck.constants.DuplicateCheckConstants;
 import com.wu.duplicatecheck.model.kafka.DuplicateCheckKafkaEvent;
-import com.wu.era.library.exception.utils.WUServiceExceptionUtils;
+import com.wu.duplicatecheck.exception.utils.WUServiceExceptionUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.producer.ProducerRecord;

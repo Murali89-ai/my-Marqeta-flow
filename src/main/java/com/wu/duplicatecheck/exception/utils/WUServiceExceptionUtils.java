@@ -1,6 +1,6 @@
-package com.wu.era.library.exception.utils;
+package com.wu.duplicatecheck.exception.utils;
 
-import com.wu.era.library.exception.exceptiontype.WUServiceException;
+import com.wu.duplicatecheck.exception.exceptiontype.WUServiceException;
 
 public class WUServiceExceptionUtils {
 

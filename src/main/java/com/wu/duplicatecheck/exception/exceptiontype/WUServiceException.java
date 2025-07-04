@@ -1,4 +1,4 @@
-package com.wu.era.library.exception.exceptiontype;
+package com.wu.duplicatecheck.exception.exceptiontype;
 
 public class WUServiceException extends RuntimeException {
 

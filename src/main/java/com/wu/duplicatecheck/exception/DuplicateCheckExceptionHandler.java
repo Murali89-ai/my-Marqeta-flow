@@ -2,7 +2,7 @@ package com.wu.duplicatecheck.exception;
 
 import com.wu.duplicatecheck.constants.DuplicateCheckConstants;
 import com.wu.duplicatecheck.dto.DuplicateCheckResponse;
-import com.wu.era.library.exception.exceptiontype.WUServiceException;
+import com.wu.duplicatecheck.exception.exceptiontype.WUServiceException;
 import jakarta.validation.ConstraintViolationException;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;

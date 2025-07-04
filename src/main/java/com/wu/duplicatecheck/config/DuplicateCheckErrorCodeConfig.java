@@ -1,7 +1,7 @@
 package com.wu.duplicatecheck.config;
 
-import com.wu.era.library.exception.exceptiontype.WUServiceException;
-import com.wu.era.library.exception.utils.WUServiceExceptionUtils;
+import com.wu.duplicatecheck.exception.exceptiontype.WUServiceException;
+import com.wu.duplicatecheck.exception.utils.WUServiceExceptionUtils;
 import com.wu.duplicatecheck.constants.DuplicateCheckConstants;
 import lombok.RequiredArgsConstructor;
 import org.apache.logging.log4j.LogManager;

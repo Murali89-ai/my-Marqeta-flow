@@ -27,26 +27,26 @@ public class KafkaProducerService {
             String message = objectMapper.writeValueAsString(event);
 
             ProducerRecord<String, String> record = new ProducerRecord<>(
-                kafkaTopicsConfig.getBusinessTopic(), event.getCorrelationId(), message
+                    kafkaTopicsConfig.getBusinessTopic(), event.getCorrelationId(), message
             );
 
             kafkaTemplate.send(record);
             log.info("Successfully published event to Kafka topic [{}] with key [{}]: {}",
-                kafkaTopicsConfig.getBusinessTopic(), event.getCorrelationId(), message);
+                    kafkaTopicsConfig.getBusinessTopic(), event.getCorrelationId(), message);
 
         } catch (JsonProcessingException e) {
             log.error("Failed to serialize Kafka event", e);
             throw WUServiceExceptionUtils.buildWUServiceException(
-                DuplicateCheckConstants.DUPLICATE_CHECK_ERROR_CODE,
-                "Error serializing Kafka event",
-                e
+                    DuplicateCheckConstants.DUPLICATE_CHECK_ERROR_CODE,
+                    "Error serializing Kafka event",
+                    e
             );
         } catch (Exception e) {
             log.error("Failed to publish Kafka event", e);
             throw WUServiceExceptionUtils.buildWUServiceException(
-                DuplicateCheckConstants.DUPLICATE_CHECK_ERROR_CODE,
-                "Error publishing event to Kafka",
-                e
+                    DuplicateCheckConstants.DUPLICATE_CHECK_ERROR_CODE,
+                    "Error publishing event to Kafka",
+                    e
             );
         }
     }
@@ -61,7 +61,7 @@ public class KafkaProducerService {
             log.error("Failed to serialize message for Kafka", e);
             throw WUServiceExceptionUtils.buildWUServiceException(
                     DuplicateCheckConstants.DUPLICATE_CHECK_ERROR_CODE,
-                    "Error serializing message for Kafka");
+                    "Error serializing message for Kafka", e);
         }
     }
 }

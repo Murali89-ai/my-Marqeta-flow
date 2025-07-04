@@ -1,56 +1,68 @@
 package com.wu.duplicatecheck.config;
 
 import com.wu.duplicatecheck.interceptor.RestTemplateHeaderInterceptor;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
-import org.apache.http.client.config.RequestConfig;
-import org.apache.http.impl.client.HttpClientBuilder;
+import lombok.RequiredArgsConstructor;
+import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
+import org.apache.hc.client5.http.impl.classic.HttpClients;
+import org.apache.hc.client5.http.impl.io.PoolingHttpClientConnectionManager;
+import org.apache.hc.client5.http.config.RequestConfig;
+import org.apache.hc.core5.util.Timeout;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
+import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.web.client.RestTemplate;
 
 import java.time.Duration;
+import java.util.List;
 
 @Configuration
+@RequiredArgsConstructor
 public class RestTemplateConfig {
 
-    private static final int TIMEOUT_MILLIS = 10000;
-    private static final int MAX_TOTAL_CONNECTIONS = 200;
-    private static final int MAX_CONNECTIONS_PER_ROUTE = 20;
-
-    @Autowired(required = false)
-    private RestTemplateHeaderInterceptor headerInterceptor;
+    private final RestTemplateHeaderInterceptor restTemplateHeaderInterceptor;
 
     @Bean
-    public RestTemplate restTemplate(RestTemplateBuilder builder) {
-        // Connection manager with pooling
+    public RestTemplate restTemplate() {
+        return new RestTemplate(httpRequestFactory());
+    }
+
+    @Bean
+    public SimpleClientHttpRequestFactory httpRequestFactory() {
+        SimpleClientHttpRequestFactory factory = new SimpleClientHttpRequestFactory();
+        factory.setConnectTimeout((int) Duration.ofSeconds(5).toMillis());
+        factory.setReadTimeout((int) Duration.ofSeconds(5).toMillis());
+        return factory;
+    }
+
+    @Bean
+    public CloseableHttpClient httpClient() {
         PoolingHttpClientConnectionManager connectionManager = new PoolingHttpClientConnectionManager();
-        connectionManager.setMaxTotal(MAX_TOTAL_CONNECTIONS);
-        connectionManager.setDefaultMaxPerRoute(MAX_CONNECTIONS_PER_ROUTE);
+        connectionManager.setMaxTotal(100);
+        connectionManager.setDefaultMaxPerRoute(20);
 
-        // Configure timeouts
-        RequestConfig requestConfig = RequestConfig.custom()
-                .setConnectTimeout(TIMEOUT_MILLIS)
-                .setSocketTimeout(TIMEOUT_MILLIS)
+        RequestConfig config = RequestConfig.custom()
+                .setConnectionRequestTimeout(Timeout.ofSeconds(5))
+                .setConnectTimeout(Timeout.ofSeconds(5))
+                .setResponseTimeout(Timeout.ofSeconds(5))
                 .build();
 
-        CloseableHttpClient httpClient = HttpClientBuilder.create()
+        return HttpClients.custom()
                 .setConnectionManager(connectionManager)
-                .setDefaultRequestConfig(requestConfig)
+                .setDefaultRequestConfig(config)
                 .build();
+    }
 
-        HttpComponentsClientHttpRequestFactory factory = new HttpComponentsClientHttpRequestFactory(httpClient);
+    @Bean
+    public RestTemplateHeaderInterceptor restTemplateHeaderInterceptorBean() {
+        return restTemplateHeaderInterceptor;
+    }
 
-        RestTemplate restTemplate = new RestTemplate(factory);
-
-        // Add header interceptor if available
-        if (headerInterceptor != null) {
-            restTemplate.getInterceptors().add(headerInterceptor);
-        }
-
+    @Bean
+    public RestTemplate restTemplateWithInterceptor() {
+        RestTemplate restTemplate = restTemplate();
+        restTemplate.setInterceptors(List.of(restTemplateHeaderInterceptorBean()));
         return restTemplate;
     }
 }

@@ -19,7 +19,6 @@ import java.util.Map;
 @Data
 @Builder
 @Configuration
-@RequiredArgsConstructor
 @ConfigurationProperties(prefix = "kafka.producer")
 public class KafkaProducerConfig {
 

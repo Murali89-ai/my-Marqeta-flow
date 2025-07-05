@@ -14,7 +14,7 @@ public class DuplicateCheckErrorCodeConfig {
 
     private static final Logger logger = LogManager.getLogger(DuplicateCheckErrorCodeConfig.class);
 
-    private final WUServiceExceptionUtils wuServiceExceptionUtils;
+    private final wuServiceExceptionUtils;
 
     public WUServiceException prepareErrorCode(Exception exception, String flowName) {
         logger.error("Exception occurred in {}: {}", flowName, exception.getMessage());

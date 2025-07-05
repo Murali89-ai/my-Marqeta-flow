@@ -1,11 +1,18 @@
 package com.wu.duplicatecheck.config;
 
-import lombok.Data;
-import org.springframework.boot.context.properties.ConfigurationProperties;
+import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Configuration;
 
-@Data
-@ConfigurationProperties(prefix = "kafka.topics")
+@Configuration
+@RequiredArgsConstructor
 public class KafkaTopicsConfig {
-    private String businessTopic;
-    private String errorTopic;
+    private final KafkaTopicsProperties kafkaTopicsProperties;
+
+    public String getBusinessTopic() {
+        return kafkaTopicsProperties.getBusinessTopic();
+    }
+
+    public String getErrorTopic() {
+        return kafkaTopicsProperties.getErrorTopic();
+    }
 }

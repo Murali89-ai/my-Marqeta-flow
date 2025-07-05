@@ -1,7 +1,7 @@
 package com.wu.duplicatecheck.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.wu.duplicatecheck.event.DuplicateCheckKafkaEvent;
+import com.wu.duplicatecheck.model.kafka.DuplicateCheckKafkaEvent;
 import lombok.RequiredArgsConstructor;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringSerializer;

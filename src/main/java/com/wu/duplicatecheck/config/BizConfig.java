@@ -5,7 +5,6 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
 @Data
-@Configuration
 @ConfigurationProperties(prefix = "biz")
 public class BizConfig {
     private String getCardDetailsHost;

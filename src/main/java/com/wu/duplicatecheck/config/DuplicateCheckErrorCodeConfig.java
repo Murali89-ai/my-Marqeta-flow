@@ -14,14 +14,12 @@ public class DuplicateCheckErrorCodeConfig {
 
     private static final Logger logger = LogManager.getLogger(DuplicateCheckErrorCodeConfig.class);
 
-    private final wuServiceExceptionUtils;
-
     public WUServiceException prepareErrorCode(Exception exception, String flowName) {
         logger.error("Exception occurred in {}: {}", flowName, exception.getMessage());
-        return wuServiceExceptionUtils.buildWUServiceException(
+        return WUServiceExceptionUtils.buildWUServiceException(
                 DuplicateCheckConstants.DUPLICATE_CHECK_ERROR_CODE,
-                " Exception in the flow: "+flowName,
-        exception
+                " Exception in the flow: " + flowName,
+                exception
         );
     }
 }

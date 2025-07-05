@@ -1,6 +1,8 @@
 package com.wu.duplicatecheck.config;
 
+import lombok.Data;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -14,56 +16,34 @@ import org.springframework.data.redis.core.RedisTemplate;
 import java.time.Duration;
 
 @Configuration
-@ConfigurationProperties(prefix = "common.redis")
-@Getter
-@Setter
+@RequiredArgsConstructor
 public class RedisConfig {
 
-    private boolean blockWhenExhausted;
-    private int maxIdle;
-    private int maxTotal;
-    private int minIdle;
-    private long maxWaitMillis;
-    private long minEvictableIdleTimeMillis;
-    private int numTestsPerEvictionRun;
-    private long timeBetweenEvictionRunsMillis;
-    private boolean testOnBorrow;
-    private boolean testOnReturn;
-    private boolean testWhileIdle;
-    private boolean retry;
-    private boolean encryptionEnabled;
-    private boolean clusterModeEnabled;
-
-    private String readRedisHost;
-    private int readRedisHostPort;
-    private String readWriteRedisHost;
-    private int readWriteRedisHostPort;
-    private int databaseIndex;
-    private String password;
+    private final RedisConfigProperties redisConfigProperties;
 
     @Bean
     public LettuceConnectionFactory redisConnectionFactory() {
         RedisStandaloneConfiguration redisConfig = new RedisStandaloneConfiguration();
-        redisConfig.setHostName(readWriteRedisHost);
-        redisConfig.setPort(readWriteRedisHostPort);
-        redisConfig.setDatabase(databaseIndex);
+        redisConfig.setHostName(redisConfigProperties.getReadWriteRedisHost());
+        redisConfig.setPort(redisConfigProperties.getReadWriteRedisHostPort());
+        redisConfig.setDatabase(redisConfigProperties.getDatabaseIndex());
 
-        if (password != null && !password.isBlank()) {
-            redisConfig.setPassword(RedisPassword.of(password));
+        if (redisConfigProperties.getPassword() != null && !redisConfigProperties.getPassword().isBlank()) {
+            redisConfig.setPassword(RedisPassword.of(redisConfigProperties.getPassword()));
         }
 
         GenericObjectPoolConfig<?> poolConfig = new GenericObjectPoolConfig<>();
-        poolConfig.setBlockWhenExhausted(blockWhenExhausted);
-        poolConfig.setMaxIdle(maxIdle);
-        poolConfig.setMaxTotal(maxTotal);
-        poolConfig.setMinIdle(minIdle);
-        poolConfig.setMaxWait(Duration.ofMillis(maxWaitMillis));
-        poolConfig.setMinEvictableIdleTime(Duration.ofMillis(minEvictableIdleTimeMillis));
-        poolConfig.setNumTestsPerEvictionRun(numTestsPerEvictionRun);
-        poolConfig.setTimeBetweenEvictionRuns(Duration.ofMillis(timeBetweenEvictionRunsMillis));
-        poolConfig.setTestOnBorrow(testOnBorrow);
-        poolConfig.setTestOnReturn(testOnReturn);
-        poolConfig.setTestWhileIdle(testWhileIdle);
+        poolConfig.setBlockWhenExhausted(redisConfigProperties.isBlockWhenExhausted());
+        poolConfig.setMaxIdle(redisConfigProperties.getMaxIdle());
+        poolConfig.setMaxTotal(redisConfigProperties.getMaxTotal());
+        poolConfig.setMinIdle(redisConfigProperties.getMinIdle());
+        poolConfig.setMaxWait(Duration.ofMillis(redisConfigProperties.getMaxWaitMillis()));
+        poolConfig.setMinEvictableIdleTime(Duration.ofMillis(redisConfigProperties.getMinEvictableIdleTimeMillis()));
+        poolConfig.setNumTestsPerEvictionRun(redisConfigProperties.getNumTestsPerEvictionRun());
+        poolConfig.setTimeBetweenEvictionRuns(Duration.ofMillis(redisConfigProperties.getTimeBetweenEvictionRunsMillis()));
+        poolConfig.setTestOnBorrow(redisConfigProperties.isTestOnBorrow());
+        poolConfig.setTestOnReturn(redisConfigProperties.isTestOnReturn());
+        poolConfig.setTestWhileIdle(redisConfigProperties.isTestWhileIdle());
 
         LettuceClientConfiguration clientConfig = LettuceClientConfiguration.builder()
                 .commandTimeout(Duration.ofSeconds(5))

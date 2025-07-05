@@ -1,99 +1,62 @@
 {
   "configuration": {
     "status": "WARN",
-    "name": "JSONConfig",
-    "packages": "com.wu",
-    "ThresholdFilter": {
-      "level": "info"
-    },
+    "name": "DuplicateCheckLogConfig",
+    "packages": "",
     "appenders": {
-      "Console": [
-        {
-          "name": "ConsoleJSONAppender",
-          "target": "SYSTEM_OUT",
-          "SimpleJSONLayout": {
-            "properties": true
-          }
-        },
-        {
-          "name": "BasicConsoleJSONAppender",
-          "target": "SYSTEM_OUT",
-          "SimpleJSONLayout": {
-            "properties": false
-          }
-        },
-        {
-          "name": "DefaultConsoleAppender",
-          "target": "SYSTEM_OUT",
-          "PatternLayout": {
-            "pattern": "%d %-5p [%15.15t] %-40.40c{1.}: %m%n"
-          }
+      "Console": {
+        "type": "Console",
+        "name": "Console",
+        "target": "SYSTEM_OUT",
+        "PatternLayout": {
+          "pattern": "%d{yyyy-MM-dd HH:mm:ss} %-5p [%t] %c{1}:%L - %m%n"
         }
-      ],
+      },
       "RollingFile": {
-        "name": "JSONRollingfileAppender",
-        "fileName": "logs/logfile.log",
-        "filePattern": "logs/logfile-%d{yyyy-MM-dd}-%i.log.gz",
-        "SimpleJSONLayout": {
-          "properties": true
-        },
-        "BurstFilter": {
-          "level": "INFO",
-          "rate": "2",
-          "maxBurst": "10"
+        "type": "RollingFile",
+        "name": "RollingFile",
+        "fileName": "logs/duplicatecheck.log",
+        "filePattern": "logs/duplicatecheck-%d{yyyy-MM-dd}-%i.log.gz",
+        "PatternLayout": {
+          "pattern": "%d{yyyy-MM-dd HH:mm:ss} %-5p [%t] %c{1}:%L - %m%n"
         },
         "Policies": {
           "SizeBasedTriggeringPolicy": {
-            "size": "100 MB"
-          },
-          "OnStartupTriggeringPolicy": [],
-          "TimeBasedTriggeringPolicy": []
+            "size": "10MB"
+          }
         },
         "DefaultRolloverStrategy": {
-          "max": "10"
+          "max": "5"
         }
       }
     },
     "loggers": {
-      "AsyncLogger": [
+      "logger": [
         {
           "name": "org.springframework",
-          "additivity": false,
-          "level": "WARN",
-          "AppenderRef": {
-            "ref": "ConsoleJSONAppender"
-          }
-        },
-        {
-          "name": "org.apache",
-          "additivity": false,
-          "level": "WARN",
-          "AppenderRef": {
-            "ref": "ConsoleJSONAppender"
-          }
-        },
-        {
-          "name": "com.wu.era",
-          "additivity": false,
-          "level": "WARN",
-          "AppenderRef": {
-            "ref": "ConsoleJSONAppender"
-          }
-        },
-        {
-          "name": "com.wu.brwallet",
-          "additivity": false,
           "level": "INFO",
-          "AppenderRef": {
-            "ref": "ConsoleJSONAppender"
-          }
+          "additivity": false,
+          "appender-ref": [
+            { "ref": "Console" },
+            { "ref": "RollingFile" }
+          ]
+        },
+        {
+          "name": "com.wu",
+          "level": "DEBUG",
+          "additivity": false,
+          "appender-ref": [
+            { "ref": "Console" },
+            { "ref": "RollingFile" }
+          ]
         }
       ],
-      "AsyncRoot": {
+      "root": {
         "level": "INFO",
-        "AppenderRef": {
-          "ref": "ConsoleJSONAppender"
-        }
+        "appender-ref": [
+          { "ref": "Console" },
+          { "ref": "RollingFile" }
+        ]
       }
     }
   }

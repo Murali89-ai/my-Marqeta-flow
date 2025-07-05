@@ -16,11 +16,11 @@ import org.springframework.kafka.support.serializer.JsonSerializer;
 import java.util.HashMap;
 import java.util.Map;
 
-@Data
-@Builder
+
 @Configuration
 @ConfigurationProperties(prefix = "kafka.producer")
-public class KafkaProducerConfig {
+@Data
+public class KafkaProducerConfig  {
 
     private String bootStrapServers;
     private String clientId;

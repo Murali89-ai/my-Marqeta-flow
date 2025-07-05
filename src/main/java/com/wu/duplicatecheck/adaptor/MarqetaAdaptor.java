@@ -8,6 +8,7 @@ import com.wu.duplicatecheck.exception.utils.WUServiceExceptionUtils;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.*;
 import org.springframework.retry.support.RetryTemplate;
 import org.springframework.stereotype.Component;
@@ -20,6 +21,7 @@ import org.springframework.web.client.RestTemplate;
 public class MarqetaAdaptor {
 
     private final MarqetaConfig config;
+    @Qualifier("restTemplateWithInterceptor")
     private final RestTemplate restTemplate;
     private final RetryTemplate marqetaRetryTemplate;
 

@@ -2,7 +2,9 @@ package com.wu.duplicatecheck.exception.utils;
 
 import com.wu.duplicatecheck.exception.exceptiontype.WUExceptionType;
 import com.wu.duplicatecheck.exception.exceptiontype.WUServiceException;
+import org.springframework.stereotype.Component;
 
+@Component
 public class WUServiceExceptionUtils {
 
     public static WUServiceException buildWUServiceException(WUExceptionType type, String message, Throwable cause) {

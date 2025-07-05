@@ -18,7 +18,7 @@ public class UcdUpdateRequestBuilder {
         payload.put("firstName", request.getFirstName());
         payload.put("lastName", request.getLastName());
         payload.put("email", request.getEmail());
-        payload.put("phone", request.getPhone());
+        payload.put("phone", request.getPhoneNumber());
         payload.put("address", request.getAddress());
 
         // Add other fields from ProfileUpdateRequest if required

@@ -1,59 +1,29 @@
 package com.wu.duplicatecheck.dto;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Pattern;
-import lombok.Builder;
 import lombok.Data;
 
-/**
- * DTO for incoming profile update/duplicate check requests.
- */
 @Data
-@Builder
-@JsonInclude(JsonInclude.Include.NON_NULL)
 public class ProfileUpdateRequest {
 
-    @NotBlank(message = "cpfNumber is mandatory")
-    @JsonProperty("cpfNumber")
-    private String cpfNumber;
+    @Email(message = "email must be a valid address")
+    @JsonProperty("email")
+    private String email;
 
-    @NotBlank(message = "sourceSystem is mandatory")
-    @JsonProperty("sourceSystem")
-    private String sourceSystem;
+    @NotBlank(message = "phone is required")
+    @JsonProperty("phoneNumber")
+    private String phoneNumber;
 
-    @NotBlank(message = "sourceId is mandatory")
-    @JsonProperty("sourceId")
-    private String sourceId;
+    @JsonProperty("phoneCountryCode")
+    private String phoneCountryCode;
 
-    @NotBlank(message = "eventName is mandatory")
-    @JsonProperty("eventName")
-    private String eventName;
+    @JsonProperty("address")
+    private String address;
 
-    @JsonProperty("externalRefId")
-    private String externalRefId;
-
-    @JsonProperty("eventId")
-    private String eventId;
-
-    @JsonProperty("productCode")
-    private String productCode;
-
-    @JsonProperty("eventTimestamp")
-    @Pattern(regexp = "\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}", message = "eventTimestamp must be in ISO 8601 format")
-    private String eventTimestamp;
-
-    @JsonProperty("transactionId")
-    private String transactionId;
-
-    @JsonProperty("messagePayload")
-    private Object messagePayload;
-
-    @NotBlank(message = "customerUmn is mandatory")
-    @JsonProperty("customerUmn")
-    private String customerUmn;
+    @JsonProperty("customerId")
+    private String customerId;
 
     @NotBlank(message = "firstName is mandatory")
     @JsonProperty("firstName")
@@ -63,19 +33,34 @@ public class ProfileUpdateRequest {
     @JsonProperty("lastName")
     private String lastName;
 
-    @Email(message = "email must be a valid address")
-    @JsonProperty("email")
-    private String email;
 
-    /** Phone digits only, no ‘+’.  ISD code comes in <code>phoneCountryCode</code>. */
-    @JsonProperty("phone")
-    private String phone;
+    @JsonProperty("customerUMN")
+    private String customerUmn;
 
-    /** ISO-3166 numeric or alpha country code for <code>phone</code>. */
-    @JsonProperty("phoneCountryCode")
-    private String phoneCountryCode;
+    @JsonProperty("deviceId")
+    private String deviceId;
 
-    @JsonProperty("address")
-    private String address;
+    @JsonProperty("externalReferenceId")
+    private String externalReferenceId;
 
+    @JsonProperty("correlationId")
+    private String correlationId;
+
+    @JsonProperty("sourceSystem")
+    private String sourceSystem;
+
+    @JsonProperty("channel")
+    private String channel;
+
+    @JsonProperty("subChannel")
+    private String subChannel;
+
+    @JsonProperty("upstreamServiceName")
+    private String upstreamServiceName;
+
+    @JsonProperty("eventType")
+    private String eventType;
+
+    @JsonProperty("eventName")
+    private String eventName;
 }

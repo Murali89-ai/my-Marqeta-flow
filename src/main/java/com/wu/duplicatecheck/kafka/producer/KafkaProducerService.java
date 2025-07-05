@@ -17,7 +17,6 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class KafkaProducerService {
-
     private final KafkaTemplate<String, String> kafkaTemplate;
     private final KafkaTopicsConfig kafkaTopicsConfig;
     private final ObjectMapper objectMapper;
